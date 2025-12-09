@@ -22,7 +22,7 @@ with open('soc-sign-bitcoinalpha.csv', 'r') as f:
             # Add edge with signed weight and timestamp
             G.add_edge(
                 source, target,
-                weight=rating,           # Signed weight (-10 to +10)
+                weight=1 if rating > 0 else 0,           # Signed weight (-10 to +10)
                 timestamp=timestamp      # Temporal information
             )
         except (ValueError, IndexError) as e:
