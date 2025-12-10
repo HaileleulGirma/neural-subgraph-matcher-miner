@@ -63,22 +63,22 @@ def parse_decoder(parser):
     parser.set_defaults(
         # Dataset defaults
         dataset="enzymes",
-        batch_size=1000,
+        batch_size=500,
         
         # Decoder defaults
         out_path="results/out-patterns.p",
-        n_neighborhoods=3000,
-        n_trials=3000,
+        n_neighborhoods=200,
+        n_trials=1000,
         decode_thresh=0.5,
-        radius=4,
+        radius=3,
         subgraph_sample_size=0,
         sample_method="tree",
         skip="learnable",
         graph_type="directed",
         min_pattern_size=3,
-        max_pattern_size=8,
+        max_pattern_size=6,
         min_neighborhood_size=2,
-        max_neighborhood_size=3,
+        max_neighborhood_size=4,
         search_strategy="mcts",
         out_batch_size=10,
         node_anchored=True,
