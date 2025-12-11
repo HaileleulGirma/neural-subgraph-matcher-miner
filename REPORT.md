@@ -1,7 +1,3 @@
-Here you go — **a clean, well-structured, professional `report.md` you can copy-paste directly**, with no duplicates, no clutter, and improved organization + readability.
-
----
-
 # **Comprehensive Analysis of Motif Mining on the Soc-Sign-Bitcoin-Alpha Network Using SPMiner**
 
 ## **1. Introduction**
@@ -203,12 +199,3 @@ Future enhancements could include:
   * **Multi-SPMiner** (multiple graphs)
 
 ---
-
-If you'd like, I can also prepare:
-
-✅ A **presentation-ready PDF**
-✅ A **shorter executive summary**
-✅ A **motif visualization script**
-✅ A **table of all motifs extracted from your JSON**
-
-Just tell me which version you want next.
