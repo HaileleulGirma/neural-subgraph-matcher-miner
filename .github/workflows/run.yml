@@ -24,6 +24,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
+
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
@@ -34,16 +35,31 @@ jobs:
             type=local,src=/tmp/.buildx-cache
           cache-to: |
             type=local,dest=/tmp/.buildx-cache-new,mode=max
+
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
       - name: Create output directories
         run: |
           mkdir -p ${{ github.workspace }}/plots/cluster
           mkdir -p ${{ github.workspace }}/results
           chmod -R 777 ${{ github.workspace }}/plots
           chmod -R 777 ${{ github.workspace }}/results
+
+      # 🔵 RESOURCE USAGE (BEFORE WORKLOAD)
+      - name: System resource usage BEFORE run
+        run: |
+          echo "===== CPU INFO ====="
+          lscpu
+          echo "===== RAM ====="
+          free -h
+          echo "===== TOP PROCESSES ====="
+          top -b -n1 | head -20
+          echo "===== DISK USAGE ====="
+          df -h
+
       - name: Check available processors and usage percentage
         id: cpu-check
         run: |
@@ -70,62 +86,24 @@ jobs:
                 --n_trials=200 \
                 --node_anchored \
                 --out_path=/app/results/patterns.pkl \
-                
-
 
               echo 'Checking output directories...'
               ls -la /app/plots/cluster
               ls -la /app/results
               "
-      # - name: Run pattern counter in Docker container
-      #   run: |
-      #     docker run --rm \
-      #       -v ${{ github.workspace }}:/app \
-      #       -e PYTHONUNBUFFERED=1 \
-      #       decoder-image:latest \
-      #       bash -c "
-      #         set -e
-      #         export PYTHONPATH=/app
-      #         echo 'Running pattern counter...'
-      #         python -m analyze.count_patterns \
-      #           --dataset=metta.pkl \
-      #           --queries_path=results/patterns.pkl \
-      #           --out_path=results/ \
-      #           --node_anchored \
 
-      #         echo 'Counting completed.'
-      #         ls -la /app/results
-      #       "
-      # - name: Run matcher in Docker container
-      #  run: |
-      #   docker run --rm \
-      #    -v ${{ github.workspace }}:/app \
-      #   -e PYTHONUNBUFFERED=1 \
-      #  decoder-image:latest \
-      # bash -c "
-      #  set -e
-      # echo 'Starting matcher run on custom gene graph...'
-      #ython -m subgraph_matching.train \
-      # --dataset=graph \
-      #--graph_pkl_path=graph.pkl \
-      #--node_anchored \
-      #--batch_size 16 \
-      #--val_size 128
-      #echo 'Checking output directories...'
-      #ls -la /app/results
-      # ls -la /app/plots
-      #"
-      #         echo 'Starting matcher run on custom gene graph...'
-      #         python -m subgraph_matching.train \
-      #           --dataset=graph \
-      #           --graph_pkl_path=graph.pkl \
-      #           --node_anchored \
-      #           --batch_size 16 \
-      #           --val_size 128
-      #         echo 'Checking output directories...'
-      #         ls -la /app/results
-      #         ls -la /app/plots
-      #       "
+      # 🔵 RESOURCE USAGE (AFTER WORKLOAD)
+      - name: System resource usage AFTER run
+        if: always()
+        run: |
+          echo "===== CPU INFO ====="
+          lscpu
+          echo "===== RAM ====="
+          free -h
+          echo "===== TOP PROCESSES ====="
+          top -b -n1 | head -20
+          echo "===== DISK USAGE ====="
+          df -h
 
       - name: Check for generated files
         run: |
@@ -133,6 +111,7 @@ jobs:
           ls -R plots/ || echo "No plots directory found"
           echo "Checking results directory:"
           ls -R results/ || echo "No results directory found"
+
       - name: Upload plots as artifact
         if: always()
         uses: actions/upload-artifact@v4
