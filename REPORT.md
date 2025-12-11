@@ -13,7 +13,7 @@ Key statistics:
 * **93.65% positive ratings**, 6.35% negative
 * Ratings range from **–10 to +10**
 * Includes **timestamps** (Unix epoch)
-* Graph type: **directed, signed, weighted**
+* Graph type: **directed, signed, weighted, temporal**
 
 Negative edges represent distrust, often used as scam warnings. Example entries include edges like `1 → 7348 (-1)` or multiple `-10` edges toward suspicious accounts.
 
