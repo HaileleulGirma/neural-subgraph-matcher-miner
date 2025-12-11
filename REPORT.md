@@ -10,7 +10,7 @@ Key statistics:
 
 * **3,783 nodes (users)**
 * **24,186 directed edges (ratings)**
-* **93% positive ratings**, 7% negative
+* **93.65% positive ratings**, 6.35% negative
 * Ratings range from **–10 to +10**
 * Includes **timestamps** (Unix epoch)
 * Graph type: **directed, signed, weighted**
@@ -188,14 +188,8 @@ Some users act as rating hubs—common in marketplaces where a few trusted selle
 Future enhancements could include:
 
 * **Sign-aware embeddings**
-  (e.g., balance theory, signed GNNs)
 * **Temporal motif mining** using timestamps
-* **Multimodal embeddings** incorporating textual metadata
 * **Larger motifs (10+ nodes)** for community-level insights
-* **Explicit motif frequency scoring**
-* Integration with newer 2025 techniques like:
 
-  * **SPMiner+HF** (hybrid frequency scoring)
-  * **Multi-SPMiner** (multiple graphs)
 
 ---
